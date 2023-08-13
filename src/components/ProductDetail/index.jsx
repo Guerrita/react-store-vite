@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import { XMarkIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
-import { ShopingCartContext } from '../../Context'
+import { ShoppingCartContext } from '../../Context'
 
 import './styles.css'
 const ProductDetail = () => {
-  const context = useContext(ShopingCartContext)
+  const context = useContext(ShoppingCartContext)
   const [image, setImage] = useState(0)
 
   const nextImage = () => {

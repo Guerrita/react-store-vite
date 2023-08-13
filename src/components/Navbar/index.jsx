@@ -1,16 +1,16 @@
-import { NavLink } from "react-router-dom"
-import { useContext } from "react"
-import { ShopingCartContext } from "../../Context"
+import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { ShoppingCartContext } from '../../Context'
 import { ShoppingBagIcon } from '@heroicons/react/24/solid'
 
 
 const Navbar = () => {
-  const context = useContext(ShopingCartContext)
+  const context = useContext(ShoppingCartContext)
   const activeStyle = 'underline underline-offset-4'
   return (
-    <nav className="flex justify-between items-center fixed z-10 w-full py-5 px-8 text-lg top-0 bg-white">
-      <ul className="flex items-center gap-3">
-        <li className="font-semibold text-lg">
+    <nav className='flex justify-between items-center fixed z-10 w-full py-5 px-8 text-lg top-0 bg-white'>
+      <ul className='flex items-center gap-3'>
+        <li className='font-semibold text-lg'>
           <NavLink
             to='/'>
             Shopi
@@ -28,6 +28,7 @@ const Navbar = () => {
         <li>
           <NavLink
             to='/clothes'
+            onClick={()=> context.setSearchByCategory('clothes')}
             className={({ isActive }) =>
               isActive ? activeStyle : undefined
             }>
@@ -37,6 +38,8 @@ const Navbar = () => {
         <li>
           <NavLink
             to='/electronics'
+            onClick={()=> context.setSearchByCategory('electronics')}
+
             className={({ isActive }) =>
               isActive ? activeStyle : undefined
             }>
@@ -46,6 +49,8 @@ const Navbar = () => {
         <li>
           <NavLink
             to='/toys'
+            onClick={()=> context.setSearchByCategory('toys')}
+
             className={({ isActive }) =>
               isActive ? activeStyle : undefined
             }>
@@ -55,6 +60,8 @@ const Navbar = () => {
         <li>
           <NavLink
             to='/others'
+            onClick={()=> context.setSearchByCategory('others')}
+
             className={({ isActive }) =>
               isActive ? activeStyle : undefined
             }>
@@ -62,7 +69,7 @@ const Navbar = () => {
           </NavLink>
         </li>
       </ul>
-      <ul className="flex items-center gap-3">
+      <ul className='flex items-center gap-3'>
         <li>
           andresguerra@gmail.com
         </li>
@@ -93,11 +100,11 @@ const Navbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li className="flex items-center">
-            <ShoppingBagIcon className="w-6 h-6">
+        <li className='flex items-center'>
+            <ShoppingBagIcon className='w-6 h-6'>
             </ShoppingBagIcon>
             <div>
-              {context.count}
+              {context.cartProducts.length}
             </div>
         </li>
       </ul>

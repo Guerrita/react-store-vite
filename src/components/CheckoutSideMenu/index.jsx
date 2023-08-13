@@ -1,18 +1,34 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { ShopingCartContext } from '../../Context'
+import { ShoppingCartContext } from '../../Context'
 import OrderCard from '../OrderCard'
-import { totalPrice } from '../../utils'
+import { totalPrice } from '../../Utils'
 
 import './styles.css'
+import { Link } from 'react-router-dom'
 
 const CheckoutSideMenu = () => {
-  const context = useContext(ShopingCartContext)
+  const context = useContext(ShoppingCartContext)
 
-  const handleDelete = (id) =>{
+  const handleDelete = (id) => {
     const filteredProducts = context.cartProducts.filter(product => product.id != id)
     context.setCartProducts(filteredProducts)
   }
+
+  const handleCheckout = () => {
+    const orderToAdd = {
+      date: '01.02.2014',
+      products: context.cartProducts,
+      totalProducts: context.cartProducts.length,
+      totalPrice: totalPrice(context.cartProducts)
+    }
+
+    context.setOrder([...context.order, orderToAdd])
+    context.setCartProducts([])
+    context.setSearchByTitle(null)
+    context.closeCheckoutSideMenu()
+  }
+
   return (
     <aside className={`${context.isCheckoutSideMenuOpen ? 'flex' : 'hidden'} checkout-side-menu flex-col fixed  right-0 border border-black rounded-lg bg-white`}>
       <div className='flex justify-between items-center p-6'>
@@ -23,26 +39,28 @@ const CheckoutSideMenu = () => {
           className='w-6 h-6 cursor-pointer'
           onClick={() => context.closeCheckoutSideMenu()}></XMarkIcon>
       </div>
-      <div className='px-6 overflow-y-scroll'>
-
-      {
-        context.cartProducts?.map((product) => (
-          <OrderCard
-            key={product.id}
-            id={product.id}
-            title={product.title}
-            imageUrl={product.images}
-            price={product.price}
-            handleDelete = {handleDelete}
-          />
-        ))
-      }
+      <div className='px-6 overflow-y-scroll flex-1'>
+        {
+          context.cartProducts?.map((product) => (
+            <OrderCard
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              imageUrl={product.images}
+              price={product.price}
+              handleDelete={handleDelete}
+            />
+          ))
+        }
       </div>
-      <div className='px-6'>
-        <p>
+      <div className='px-6 mb-6'>
+        <p className='flex justify-between items-center mb-2'>
           <span>Total:</span>
-          <span>${totalPrice(context.cartProducts)}</span>
+          <span className='font-medium text-xl'>${totalPrice(context.cartProducts)}</span>
         </p>
+        <Link to="/my-orders/last">
+          <button className='w-full bg-black py-3 text-white my-5 rounded-lg' onClick={() => { handleCheckout() }}>Checkout</button>
+        </Link>
       </div>
     </aside>
   )

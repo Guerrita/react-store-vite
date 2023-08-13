@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { ShopingCartContext } from "../../Context";
+import { ShoppingCartContext } from "../../Context";
 import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid'
 
 const Card = (data) => {
-  const context = useContext(ShopingCartContext);
+  const context = useContext(ShoppingCartContext);
 
   const showProduct = (productDetail) => {
     context.openProductDetail()
